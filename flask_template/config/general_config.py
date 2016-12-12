@@ -13,7 +13,7 @@ Created on 07/27/2016
 Module responsible for provinding configuration details according to
 especific Enviroment Types such as Production, Testing and Development.
 """
-
+import os
 
 class Config(object):
     DB_MIGRATE = True
@@ -56,7 +56,7 @@ class Config(object):
             DB_URI = 'sqlite:////Users/david/Documents/projetos/flask_template/flasktemplate.db'
 
         class TestingConfig(Config):
-            DB_URI = 'sqlite:////Users/david/Documents/projetos/flask_template/flasktemplate_test.db'
+            DB_URI = ''.join(['sqlite:///', os.getcwd(), '/flasktemplate_test.db'])
             SQL_ALCHEMY_ECHO = False
             LOG_LOCATION = 'log/'
 
@@ -64,6 +64,6 @@ class Config(object):
         types = [subclass.__name__ for subclass in subclasses]
 
         if type not in types:
-            raise TypeError('Invalid Enviroment Type. Possible values : ProductionConfig, DevelopmentConfig, TestingConfig')
+            raise TypeError('Invalid Enviroment Type. Possible values: ' + str(types))
         else:
             return eval(type + '()')

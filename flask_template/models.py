@@ -1,5 +1,6 @@
 # coding: utf-8
 __author__ = 'david'
+from operator import attrgetter
 
 from flask.ext.babel import gettext
 from sqlalchemy import create_engine, Column, Integer, String, Sequence
@@ -53,14 +54,23 @@ class User(Base):
     password = Column(String(10))
 
 
-    def as_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "email": self.email,
-            "username": self.username,
-            "password": self.password
-        }
+    def as_dict(self, desired_fields=[]):
+        response = {}
+        for field in desired_fields:
+            field_value = attrgetter(field)(self)
+            try:
+                response[field] = field_value.get_as_dict()
+            except AttributeError:
+                response[field] = field_value
+        
+        return response
+        #return {
+        #    "id": self.id,
+        #    "name": self.name,
+        #    "email": self.email,
+        #    "username": self.username,
+        #    "password": self.password
+        #}
 
     def __repr__(self):
         return ('''User(id=%r, name=%r, email=%r, username=%r, password=%r)''' %
