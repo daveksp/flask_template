@@ -33,16 +33,11 @@ def create_logger(class_name):
     has_file_handler = False
     handlers = []
 
-    #for log_handler in logger.handlers:
-    #    has_stream_handler = True if isinstance(log_handler, StreamHandler) else has_stream_handler
-    #    has_file_handler = True if isinstance(log_handler, RotatingFileHandler) else has_file_handler
-
-    #if not has_stream_handler:
     handlers.append(StreamHandler())
-    #if not has_file_handler:
     location = LOG_LOCATION + LOG_NAME
-    handlers.append(RotatingFileHandler(location, maxBytes=10000000,
-                                            backupCount=10))
+    handlers.append(RotatingFileHandler(location, 
+                                        maxBytes=10000000,
+                                        backupCount=10))
 
     for handler in handlers:
         handler.setLevel(logging.INFO)

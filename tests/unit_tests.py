@@ -4,6 +4,8 @@ __author__ = 'david'
 import json
 import unittest
 
+from flask_babel import lazy_gettext as _
+
 import flask_template
 from flask_template import app, util
 from flask_template.config.general_config import Config         
@@ -28,7 +30,19 @@ class manageTestCase(unittest.TestCase):
         
 
     # tests for models module
-    def test_user_as_dict(self):
+    def test_user_as_dict_default_fields(self):
+        user = User(
+            name='David Pinheiro', email='daveksp@gmail.com', 
+            username='daveksp', password='pass123')
+        
+        with app.test_request_context('/test'):
+            user_json = user.as_dict()
+        
+            assert user_json['username'] == 'daveksp' 
+            assert len(user_json) == 4
+
+
+    def test_user_as_dict_desired_fields(self):
         user = User(
             name='David Pinheiro', email='daveksp@gmail.com', 
             username='daveksp', password='pass123')
@@ -37,7 +51,7 @@ class manageTestCase(unittest.TestCase):
             user_json = user.as_dict(desired_fields=['name'])
         
             assert user_json['name'] == 'David Pinheiro'    
-            assert len(user_json) == 5
+            assert len(user_json) == 1
 
 
     def test_user_to_string(self):
@@ -64,7 +78,7 @@ class manageTestCase(unittest.TestCase):
             rv = self.app.get('/flask_template/api/v2/pipocas')
             tags = json.loads(rv.data)
 
-            assert tags['message'] == 'Endpoint not found'
+            assert tags['message'] == _('Endpoint not found')
             assert tags['status_code'] == 404
 
 

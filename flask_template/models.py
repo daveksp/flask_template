@@ -47,6 +47,8 @@ def close_connection():
 class User(Base):
     __tablename__ = 'users'
 
+    fields = ['id', 'name', 'email', 'username']
+
     id = Column(Integer, Sequence('seq_users'), primary_key=True)
     name = Column(String)
     email = Column(String)
@@ -54,8 +56,11 @@ class User(Base):
     password = Column(String(10))
 
 
-    def as_dict(self, desired_fields=[]):
+    def as_dict(self, desired_fields=None):
         response = {}
+        if desired_fields is None:
+            desired_fields = User.fields
+        
         for field in desired_fields:
             field_value = attrgetter(field)(self)
             try:
@@ -64,13 +69,7 @@ class User(Base):
                 response[field] = field_value
         
         return response
-        #return {
-        #    "id": self.id,
-        #    "name": self.name,
-        #    "email": self.email,
-        #    "username": self.username,
-        #    "password": self.password
-        #}
+
 
     def __repr__(self):
         return ('''User(id=%r, name=%r, email=%r, username=%r, password=%r)''' %

@@ -8,6 +8,7 @@ import sys
 import time
 import unittest
 
+from flask_babel import lazy_gettext as _
 from mock import patch, MagicMock
 
 import flask_template
@@ -50,7 +51,7 @@ class manageTestCase(unittest.TestCase):
         ))
         
         user = json.loads(rv.data)   
-        assert user['message'] == 'User successfully registered' 
+        assert user['message'] == _('User successfully registered')
         self.inserted_users.append(user['result']['id'])
 
     
@@ -59,10 +60,10 @@ class manageTestCase(unittest.TestCase):
         
         user = json.loads(rv.data)   
         
-        assert user['message']['username'] == 'field username is required' 
-        assert user['message']['password'] == 'field password is required' 
-        assert user['message']['email'] == 'field email is required' 
-        assert user['message']['name'] == 'field name is required'
+        assert user['message']['username'] == _('field %(field)s is required', field='username') 
+        assert user['message']['password'] == _('field %(field)s is required', field='password') 
+        assert user['message']['email'] == _('field %(field)s is required', field='email') 
+        assert user['message']['name'] == _('field %(field)s is required', field='name')
 
     
     def test_add_user_wrong_email_pattern(self):
@@ -73,7 +74,7 @@ class manageTestCase(unittest.TestCase):
         
         user = json.loads(rv.data)   
         
-        assert user['message']['email'] == 'field email is required' 
+        assert user['message']['email'] == _('field %(field)s is required', field='email') 
 
 
     def test_list_user(self):
@@ -93,13 +94,13 @@ class manageTestCase(unittest.TestCase):
         rv = self.app.get('/flask_template/api/v1/user/99999')
         product = json.loads(rv.data)   
         
-        assert product['message'] == 'User not found'
+        assert product['message'] == _('User not found')
 
 
     def test_delete_user_wrong_id(self):
         rv = self.app.delete('/flask_template/api/v1/user/99999')
         response = json.loads(rv.data)
-        assert response['message'] == 'User not found'
+        assert response['message'] == _('User not found')
 
 
     def test_delete_user(self):
