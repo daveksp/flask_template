@@ -58,13 +58,14 @@ class manageTestCase(unittest.TestCase):
             name='David Pinheiro', email='daveksp@gmail.com', 
             username='daveksp', password='pass123', id=None)
         
-        user_as_string = "User(id=None, name='David Pinheiro', email='daveksp@gmail.com', username='daveksp', password='pass123')"
+        user_as_string = "User(id=None, name='David Pinheiro', email='daveksp@gmail.com', username='daveksp')"
         assert str(user) == user_as_string
 
         user_from_str = eval(user_as_string)
         assert user_from_str.name == 'David Pinheiro'
 
-        del user.__dict__['_sa_instance_state']
+        del user.__dict__['_sa_instance_state'] 
+        del user.__dict__['password']
         del user_from_str.__dict__['_sa_instance_state']
 
         assert user.__dict__ == user_from_str.__dict__

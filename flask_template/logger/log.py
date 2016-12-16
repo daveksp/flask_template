@@ -1,8 +1,6 @@
-__author__ = 'david'
+__author__ = 'David Pinheiro'
 """
 Created on 07/27/2016
-
-@author David Pinheiro
 
 Module responsible for provinding logging features.
 """
@@ -26,7 +24,10 @@ if not os.path.exists(LOG_LOCATION):
 
 
 def create_logger(class_name):
-    """create logger based on class_name"""
+    """create logger based on class_name
+
+    :param class_name: The class for attaching the logger.
+    """
 
     logger = logging.getLogger('{0}'.format(class_name))
     has_stream_handler = False
@@ -49,7 +50,15 @@ def create_logger(class_name):
 
 
 def log(logger, uuid_value, response, level="info", params=None, status_code=None):
-    """defines a standard to messages and log them"""
+    """defines a standard to messages and log them
+
+    :param logger logger: The sender logger object.
+    :param uuid_value: The uuid value related to the incomming request.
+    :param response: The response for the incomming request.
+    :param level: The severity level to label the log message. 
+    :param params: The parameters received with the request.
+    :status_code: The status code for automatic detection of severity level.
+    """
     # level = error
 
     method = inspect.stack()[1][0].f_code.co_name

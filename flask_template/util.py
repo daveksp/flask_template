@@ -1,4 +1,4 @@
-__author__ = 'david'
+__author__ = 'David Pinheiro'
 
 import uuid
 import six
@@ -36,6 +36,7 @@ def create_base_response():
 
 
 class CustomArgument(Argument):
+    """Custom Argument class to be used with RequestParser"""
 
     def handle_validation_error(self, error, bundle_errors):
         """Called when an error is raised while parsing. Aborts the request

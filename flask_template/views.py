@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-__author__ = 'david'
+__author__ = 'David Pinheiro'
 
 from flask import jsonify, request
 from flask_babel import gettext as _

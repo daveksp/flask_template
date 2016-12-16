@@ -1,5 +1,6 @@
 # coding: utf-8
-__author__ = 'david'
+__author__ = 'David Pinheiro'
+
 from operator import attrgetter
 
 from flask.ext.babel import gettext
@@ -16,6 +17,16 @@ Base = declarative_base()
 
 # UTIL DB METHODS
 def init_engine(uri, migrate, **kwargs):
+    """
+    Create database and session based on the initialized engine.
+
+    :param str uri: The database uri to setup the connection.
+    :param str migrate: Whether or not to create the database.
+    :param kwargs: Useful options for sqlalchemy 
+        create_engine method. For more details see: 
+        <http://docs.sqlalchemy.org/en/latest/core/engines.html#sqlalchemy.create_engine>
+    """
+
     global engine
     global db_session
     
@@ -35,6 +46,7 @@ def init_engine(uri, migrate, **kwargs):
 
 
 def get_session():
+    """Return a valid session to be used for database purposes"""
     return db_session
 
 
@@ -45,6 +57,8 @@ def close_connection():
 
 
 class User(Base):
+    """ Represents the application's user """
+
     __tablename__ = 'users'
 
     fields = ['id', 'name', 'email', 'username']
@@ -57,6 +71,15 @@ class User(Base):
 
 
     def as_dict(self, desired_fields=None):
+        """ Return the user object as a dict 
+
+        Uses desired_fields value for filtering which fields should
+        be provided in the dict.
+
+        :param list desired_fields: The fields you want to be 
+            provided as final result.
+        """
+
         response = {}
         if desired_fields is None:
             desired_fields = User.fields
@@ -72,6 +95,5 @@ class User(Base):
 
 
     def __repr__(self):
-        return ('''User(id=%r, name=%r, email=%r, username=%r, password=%r)''' %
-                        (self.id, self.name, self.email, self.username,
-                        self.password))
+        return ('''User(id=%r, name=%r, email=%r, username=%r)''' %
+                        (self.id, self.name, self.email, self.username))
