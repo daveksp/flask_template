@@ -22,9 +22,9 @@ def create_base_response():
     uuid_value = request.args.get('uuid')
 
     if uuid_value is None:
-        uuid_value = uuid.uuid4()
+        uuid_value = str(uuid.uuid4())
 
-    response = dict(result=[], status_code=200, uuid=uuid_value, message='')
+    response = dict(uuid=uuid_value, message='')
     if request.method == 'POST':
         params = request.get_data()
     else:

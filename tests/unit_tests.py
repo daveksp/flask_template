@@ -23,10 +23,9 @@ class manageTestCase(unittest.TestCase):
         with app.test_request_context('/test'):
             response = util.create_base_response()
 
-            assert response['status_code'] == 200
-            assert 'result' in response
+            assert 'message' in response
             assert response['uuid'] is not None
-            assert len(response) == 4
+            assert len(response) == 2
         
 
     # tests for models module
@@ -77,9 +76,9 @@ class manageTestCase(unittest.TestCase):
         with flask_template.app.test_request_context('/test'):
             rv = self.app.get('/flask_template/api/v2/pipocas')
             tags = json.loads(rv.data)
-
+            
             assert tags['message'] == _('Endpoint not found')
-            assert tags['status_code'] == 404
+            assert rv._status_code == 404
 
 
     def test_status_endpoint(self):
@@ -87,7 +86,7 @@ class manageTestCase(unittest.TestCase):
         tags = json.loads(rv.data)
 
         assert tags['message'] == 'running'
-        assert tags['status_code'] == 200
+        assert rv._status_code == 200
 
 
     # tests for config module

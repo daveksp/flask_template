@@ -48,8 +48,9 @@ def create_logger(class_name):
     return logger
 
 
-def log(logger, uuid_value, response, level="info", params=None):
+def log(logger, uuid_value, response, level="info", params=None, status_code=None):
     """defines a standard to messages and log them"""
+    # level = error
 
     method = inspect.stack()[1][0].f_code.co_name
     msg = ('uuid={}, caller={}, calling_method={}, params={}, msg={}'

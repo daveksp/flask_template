@@ -53,33 +53,41 @@ class UserAPI(Resource):
         session.add(user)
         session.commit()
 
-        response['result'] = user.as_dict()
+        response['user'] = user.as_dict()
         response['message'] = _('User successfully registered')
         log(logger, response['uuid'], response)
-        return jsonify(response)       
+
+        return response, 201      
 
 
     def get(self, user_id=None):
         response = create_base_response()
         session = get_session()
+
         try:
             if user_id is not None:
                 users = [
                     session.query(User).filter(User.id == user_id).one()]
             else:
                 users = session.query(User).all()
-            response['result'] = [user.as_dict() for user in users]
+            
+            response['users'] = [user.as_dict() for user in users]
+            response['total_count'] = len(users)
+            status_code = 200
+
         except NoResultFound:
             response['message'] = _('User not found')
+            status_code = 404
         
+        #injetar level var
         log(logger, response['uuid'], response)
-        return jsonify(response)
+        return response, status_code
 
 
     def delete(self, user_id=None):
         response = create_base_response()
         session = get_session()
-        
+
         try:
             user = session.query(User).filter(User.id == user_id).one()
 
@@ -87,11 +95,13 @@ class UserAPI(Resource):
             session.commit()
 
             response['message'] = _('User successfully removed')
+            status_code = 200
         except NoResultFound:
             response['message'] = _('User not found')
+            status_code = 404
 
         log(logger, response['uuid'], response)
-        return jsonify(response)
+        return response, status_code
 
 
 class StatusAPI(Resource):
@@ -105,12 +115,10 @@ class StatusAPI(Resource):
         return jsonify(response)
 
 
-
 def not_found(error):
     """handler for not_found error"""
 
     response = create_base_response()
-    response['status_code'] = 404
     response['message'] = _('Endpoint not found')
     log(logger, response['uuid'], response, level='error')
-    return jsonify(response), response['status_code']
+    return jsonify(response), 404

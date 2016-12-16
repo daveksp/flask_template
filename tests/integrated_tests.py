@@ -52,7 +52,7 @@ class manageTestCase(unittest.TestCase):
         
         user = json.loads(rv.data)   
         assert user['message'] == _('User successfully registered')
-        self.inserted_users.append(user['result']['id'])
+        self.inserted_users.append(user['user']['id'])
 
     
     def test_add_user_missing_values(self):
@@ -80,14 +80,14 @@ class manageTestCase(unittest.TestCase):
     def test_list_user(self):
         rv = self.app.get('/flask_template/api/v1/user')
         user = json.loads(rv.data)
-        len(user['result']) == 3
+        user['total_count'] == 3
 
 
     def test_get_product_by_id(self):
         rv = self.app.get('/flask_template/api/v1/user/1')
-        product = json.loads(rv.data)   
+        user = json.loads(rv.data)   
 
-        assert product['result'][0]['name'] == 'Test User'     
+        assert user['users'][0]['name'] == 'Test User'     
 
 
     def test_get_user_wrong_id(self):
@@ -110,7 +110,7 @@ class manageTestCase(unittest.TestCase):
         ))
         
         user = json.loads(rv.data)
-        user_id = user['result']['id']
+        user_id = user['user']['id']
         rv = self.app.delete('/flask_template/api/v1/user/' + str(user_id))
         response = json.loads(rv.data)
 
