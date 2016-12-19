@@ -10,6 +10,7 @@ import logging
 from logging import StreamHandler
 from logging.handlers import RotatingFileHandler
 import inspect
+from re import match
 
 LOG_LOCATION = '/var/log/flask_template/'
 LOG_NAME = 'flask_template.log'
@@ -59,7 +60,11 @@ def log(logger, uuid_value, response, level="info", params=None, status_code=Non
     :param params: The parameters received with the request.
     :status_code: The status code for automatic detection of severity level.
     """
-    # level = error
+
+    error_status = re.match(r'^[4-5][0-9]{2}$', str(status_code))
+    if error_status is not None:
+        level = 'error'
+
 
     method = inspect.stack()[1][0].f_code.co_name
     msg = ('uuid={}, caller={}, calling_method={}, params={}, msg={}'
