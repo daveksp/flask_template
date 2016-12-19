@@ -47,7 +47,7 @@ class Config(object):
         type = type + 'Config'
 
         class ProductionConfig(Config):
-            DB_URI = 'sqlite:////opt/apps/walmart_backend/walmart.db'
+            DB_URI = 'sqlite:////opt/apps/flask_template/flasktemplate.db'
             DEBUG = False
             SQL_ALCHEMY_ECHO = False
 

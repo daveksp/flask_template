@@ -44,16 +44,15 @@ class UserAPI(Resource):
 
         elif request.method == 'GET':
             self.reqparse.add_argument(
-                'fields', type=str, action='append', required=False,
-                help=_('limit_help_msg'))
+                'fields', type=str, action='append', required=False)
 
             self.reqparse.add_argument(
                 'limit', type=int, required=False, location='args',
-                help=_('limit_help_msg'))
+                help=_('limit parameter must be an integer'))
 
             self.reqparse.add_argument(
                 'offset', type=int, required=False,
-                location='args', help=_('offset_help_msg'))
+                location='args', help=_('offset parameter must be an integer'))
 
 
         super(UserAPI, self).__init__()
