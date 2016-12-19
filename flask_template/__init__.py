@@ -36,12 +36,12 @@ def start_database_engine():
 def create_endpoints():
     api.add_resource(
         UserAPI, 
-        '/flask_template/api/v1/user', 
+        '/flask_template/api/v1/users', 
         endpoint='user')
 
     api.add_resource(
         UserAPI, 
-        '/flask_template/api/v1/user/<int:user_id>',
+        '/flask_template/api/v1/users/<int:user_id>',
         endpoint='users')
 
     api.add_resource(

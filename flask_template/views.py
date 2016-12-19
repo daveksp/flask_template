@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'David Pinheiro'
 
-from flask import jsonify, request
+from flask import jsonify, request, url_for
 from flask_babel import gettext as _
 from flask.ext.restful import reqparse, Resource
 from flask_restful.inputs import regex
@@ -20,24 +20,40 @@ class UserAPI(Resource):
         self.reqparse = reqparse.RequestParser(bundle_errors=True,
                                                argument_class=CustomArgument)
         
+        self.reqparse.add_argument(
+                'uuid', type=str, required=False, location='args')
+
         if request.method == 'POST':
             self.reqparse.add_argument(
-                'name', type=str, required=True, location='form',
+                'name', type=str, required=True, location='json',
                 help=_('field %(field)s is required', field='name'))
 
             self.reqparse.add_argument(
                 'email', required=True,
                 type=regex(r'(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)'), 
-                location='form', 
+                location='json', 
                 help=_('field %(field)s is required', field='email'))
 
             self.reqparse.add_argument(
-                'username', type=str, required=True, location='form',
+                'username', type=str, required=True, location='json',
                 help=_('field %(field)s is required', field='username'))
 
             self.reqparse.add_argument(
-                'password', type=str, required=True, location='form',
+                'password', type=str, required=True, location='json',
                 help=_('field %(field)s is required', field='password'))
+
+        elif request.method == 'GET':
+            self.reqparse.add_argument(
+                'fields', type=str, action='append', required=False,
+                help=_('limit_help_msg'))
+
+            self.reqparse.add_argument(
+                'limit', type=int, required=False, location='args',
+                help=_('limit_help_msg'))
+
+            self.reqparse.add_argument(
+                'offset', type=int, required=False,
+                location='args', help=_('offset_help_msg'))
 
 
         super(UserAPI, self).__init__()
@@ -47,6 +63,7 @@ class UserAPI(Resource):
         args = self.reqparse.parse_args()
         response = create_base_response()
 
+        del args['uuid']
         user = User(**args)
 
         session = get_session()
@@ -56,11 +73,14 @@ class UserAPI(Resource):
         response['user'] = user.as_dict()
         response['message'] = _('User successfully registered')
         log(logger, response['uuid'], response)
-
-        return response, 201      
+        
+        resource_url = url_for('users', user_id=user.id)
+        return response, 201, {'Location': resource_url}
 
 
     def get(self, user_id=None):
+        args = self.reqparse.parse_args()
+        desired_fields = args['fields']
         response = create_base_response()
         session = get_session()
 
@@ -69,17 +89,23 @@ class UserAPI(Resource):
                 users = [
                     session.query(User).filter(User.id == user_id).one()]
             else:
-                users = session.query(User).all()
+                limit = args['limit']
+                offset = args['offset']
+
+                query = session.query(User)
+                query = query.limit(limit) if limit else query
+                query = query.offset(offset) if offset else query
+                users = query.all()
+
+                response['total_count'] = len(users)
             
-            response['users'] = [user.as_dict() for user in users]
-            response['total_count'] = len(users)
+            response['users'] = [user.as_dict(desired_fields=desired_fields) for user in users]
             status_code = 200
 
         except NoResultFound:
             response['message'] = _('User not found')
             status_code = 404
         
-        #injetar level var
         log(logger, response['uuid'], response)
         return response, status_code
 

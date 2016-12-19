@@ -1,41 +1,27 @@
 Flask_template
 ==========================================
 
-This project is a sample to be used as template for new microservices based on rest services.
+.. highlight:: rst
 
-API Reference
-==================
+.. role:: python(code)
+    :language: python
+
+.. role:: latex(code)
+    :language: latex
+
+
+This project is a sample to be used as template for new microservices in order to provide a REST API.
+
+Our API uses resource-orientated URLs
+
+
+.. toctree:: 
+   :caption: API Reference
+   
+   overview
+   users
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-.. automodule:: flask_template.models
-    :members:
-    :show-inheritance:
-
-
-.. automodule:: flask_template.util
-    :members:
-    :show-inheritance:
-
-
-.. automodule:: flask_template.logger.log
-    :members:
-    :show-inheritance:
-
-
-.. automodule:: flask_template.config.general_config
-    :members:
-    :show-inheritance:
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
+   :caption: Developer Guide
+   
+   documentation

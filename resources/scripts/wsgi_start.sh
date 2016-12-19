@@ -6,4 +6,4 @@ sleep 1
 
 export FLASKTEMPLATE_ENV=$1
 
-uwsgi --http 0.0.0.0:8089 --wsgi-file runserver.py --callable app --processes 4 --threads 2 --master --lazy --lazy-apps --honour-stdin
+uwsgi --http 0.0.0.0:8089 --wsgi-file runserver.py --callable app --processes 10 --threads 2 --master --lazy --lazy-apps
