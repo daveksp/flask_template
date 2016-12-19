@@ -26,7 +26,7 @@ try{
     stage 'Publishing'
     node{
         sh '''
-            echo ""testing"
+            echo "testing"
             #aws s3 sync angular/ s3://skysaver --acl public-read
         '''
         slackSend channel: '#builds', color: '#1CC36F', message: 'Build Finished: flask-template', teamDomain: 'skyone', tokenCredentialId: 'e4e45d53-edd1-4752-84dd-e8b222f5b02f'
