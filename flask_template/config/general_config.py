@@ -53,7 +53,7 @@ class Config(object):
 
 
         class DevelopmentConfig(Config):
-            DB_URI = 'sqlite:////Users/davidpinheiro/Documents/projetos/flask_template/flasktemplate.db'
+            DB_URI = ''.join(['sqlite:///', os.getcwd(), '/flasktemplate.db'])
 
         class TestingConfig(Config):
             DB_URI = ''.join(['sqlite:///', os.getcwd(), '/flasktemplate_test.db'])

@@ -10,7 +10,7 @@ import logging
 from logging import StreamHandler
 from logging.handlers import RotatingFileHandler
 import inspect
-from re import match
+import re
 
 LOG_LOCATION = '/var/log/flask_template/'
 LOG_NAME = 'flask_template.log'

@@ -34,13 +34,13 @@ Listing Users
 Query Parameter   Notes
 ================  ================================================
 limit             The number of itens to be returned
-offset            The start position based on user id
+offset            The start position based on user position
 fields            A list of user fields to be returned in response body
 ================  ================================================
 
 **Sample Request**::
 
-    GET /api/v1.0/users?limit2&offset=2&fields=id,username
+    GET /api/v1.0/users?limit2&offset=2&fields=id&fields=username
 
 **Sample Response**::
 

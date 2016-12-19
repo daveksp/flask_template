@@ -126,7 +126,7 @@ class UserAPI(Resource):
             response['message'] = _('User not found')
             status_code = 404
 
-        log(logger, response['uuid'], response, status_code)
+        log(logger, response['uuid'], response, status_code=status_code)
         return response, status_code
 
 
