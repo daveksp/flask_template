@@ -9,8 +9,6 @@ try{
     node {
         sh '''
             virtualenv /opt/envs/flask_template
-            wget https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
             /opt/envs/flask_template/bin/pip install -r resources/requirements.txt
         '''
     }
