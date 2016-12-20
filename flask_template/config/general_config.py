@@ -31,6 +31,8 @@ class Config(object):
         'pt': 'Portuguese'
     }
 
+    CORS = ['localhost', '142.4.213.86']
+
     @staticmethod
     def factory(type):
         """Factory method for handling Config's subclasses creation

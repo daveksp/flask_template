@@ -20,6 +20,8 @@ try{
         sh '''
             /opt/envs/flask_template/bin/nosetests --cover-erase  --with-coverage --cover-package=flask_template --cover-html tests/unit_tests.py
             /opt/envs/flask_template/bin/nosetests --with-coverage --cover-package=flask_template --cover-html tests/integrated_tests.py   
+            /opt/envs/flask_template/bin/coverage xml
+            /opt/tools/sonar-runner-2.4/bin/sonar-runner
         '''
     }
 
