@@ -26,9 +26,7 @@ class manageTestCase(unittest.TestCase):
             assert 'message' in response
             assert response['uuid'] is not None
             assert len(response) == 2
-        
 
-    # tests for models module
     def test_user_as_dict_default_fields(self):
         user = User(
             name='David Pinheiro', email='daveksp@gmail.com', 

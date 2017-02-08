@@ -25,6 +25,14 @@ msgid "field %(field)s is required"
 msgstr "campo %(field)s é obrigatório"
 
 #: ../flask_template/views.py:56
+msgid "limit parameter must be an integer"
+msgstr "parametro limit deve ser um número inteiro"
+
+#: ../flask_template/views.py:56
+msgid "offset parameter must be an integer"
+msgstr "parametro offset deve ser um número inteiro"
+
+#: ../flask_template/views.py:56
 msgid "User successfully registered"
 msgstr "Usuário cadastrado com sucesso"
 

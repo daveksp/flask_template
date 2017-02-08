@@ -31,6 +31,8 @@ class Config(object):
         'pt': 'Portuguese'
     }
 
+    CORS = ['localhost', '142.4.213.86']
+
     @staticmethod
     def factory(type):
         """Factory method for handling Config's subclasses creation
@@ -47,13 +49,13 @@ class Config(object):
         type = type + 'Config'
 
         class ProductionConfig(Config):
-            DB_URI = 'sqlite:////opt/apps/walmart_backend/walmart.db'
+            DB_URI = 'sqlite:////opt/apps/flask_template/flasktemplate.db'
             DEBUG = False
             SQL_ALCHEMY_ECHO = False
 
 
         class DevelopmentConfig(Config):
-            DB_URI = 'sqlite:////Users/davidpinheiro/Documents/projetos/flask_template/flasktemplate.db'
+            DB_URI = ''.join(['sqlite:///', os.getcwd(), '/flasktemplate.db'])
 
         class TestingConfig(Config):
             DB_URI = ''.join(['sqlite:///', os.getcwd(), '/flasktemplate_test.db'])

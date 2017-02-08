@@ -9,8 +9,6 @@ try{
     node {
         sh '''
             virtualenv /opt/envs/flask_template
-            wget https://bootstrap.pypa.io/get-pip.py
-            python get-pip.py
             /opt/envs/flask_template/bin/pip install -r resources/requirements.txt
         '''
     }
@@ -18,15 +16,17 @@ try{
     stage 'Testing'
     node{
         sh '''
-            nosetests --cover-erase  --with-coverage --cover-package=flask_template --cover-html tests/unit_tests.py
-            nosetests --with-coverage --cover-package=flask_template --cover-html tests/integrated_tests.py   
+            /opt/envs/flask_template/bin/nosetests --cover-erase  --with-coverage --cover-package=flask_template --cover-html tests/unit_tests.py
+            /opt/envs/flask_template/bin/nosetests --with-coverage --cover-package=flask_template --cover-html tests/integrated_tests.py   
+            /opt/envs/flask_template/bin/coverage xml
+            /opt/tools/sonar-runner-2.4/bin/sonar-runner
         '''
     }
 
     stage 'Publishing'
     node{
         sh '''
-            echo ""testing"
+            echo "testing"
             #aws s3 sync angular/ s3://skysaver --acl public-read
         '''
         slackSend channel: '#builds', color: '#1CC36F', message: 'Build Finished: flask-template', teamDomain: 'skyone', tokenCredentialId: 'e4e45d53-edd1-4752-84dd-e8b222f5b02f'

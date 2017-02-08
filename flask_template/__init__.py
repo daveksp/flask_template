@@ -56,7 +56,7 @@ def setup_cors():
     CORS(
         app, 
         resources={r"/flask_template/api/*": {
-            "origins": "[localhost, 142.4.213.86]"}}, 
+            "origins": str(app.config['CORS'])}}, 
         allow_headers='Content-Type',
         supports_credentials=True)
 
