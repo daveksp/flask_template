@@ -61,7 +61,7 @@ def log(logger, uuid_value, response, level="info", params=None, status_code=Non
     :status_code: The status code for automatic detection of severity level.
     """
 
-    error_status = re.match(r'^[4-5][0-9]{2}$', str(status_code))
+    error_status = match(r'^[4-5][0-9]{2}$', str(status_code))
     if error_status is not None:
         level = 'error'
 
