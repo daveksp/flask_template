@@ -1,5 +1,5 @@
 try{
-    stage 'Checkout SCM'
+    stage 'Checkout SCMy'
     node{
         slackSend channel: '#builds', color: '#6699FF', message: 'Build Started: flask-template', teamDomain: 'skyone', tokenCredentialId: 'e4e45d53-edd1-4752-84dd-e8b222f5b02f'
         checkout scm
